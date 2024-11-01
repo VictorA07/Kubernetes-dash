@@ -27,5 +27,12 @@ pipeline{
                 }
             }
         }
+        stage('Deploy k8s dashboard clusterbinding') {
+            steps {
+                sshagent(['jumpbox-key']) {
+                    sh 'ssh -o StrictHostKeyChecking=no -J ubuntu@$BASTION_HOST ubuntu@$HAPROXY_HOST "kubectl -n kubernetes-dashboard create token admin-user"'
+                }
+            }
+        }
     }
 }
