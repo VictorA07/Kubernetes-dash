@@ -1,0 +1,17 @@
+pipeline{
+    agent any
+    environment {
+        BASTION_HOST = credentials('bastion-host')
+        HAPROXY_HOST = credentials('haproxy-host')
+    }
+    stages {
+
+        stage('Deploy kubernetes dashboard') {
+            steps {
+                sshagent(['jumpbox-key']) {
+                    sh 'ssh -o StrictHostKeyChecking=no -J ubuntu@$BASTION_HOST ubuntu@$HAPROXY_HOST "kubectl ${rules} -f https://raw.githubusercontent.com/VictorA07/Kubernetes-dash/main/k8s-dashboard.yml"'
+                }
+            }
+        }
+    }
+}
