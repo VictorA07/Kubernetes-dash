@@ -1,3 +1,4 @@
+@library('shared_lib') _
 pipeline{
     agent any
     environment {
@@ -12,7 +13,7 @@ pipeline{
             }
             steps {
                 sshagent(['jumpbox-key']) {
-                    sh 'ssh -o StrictHostKeyChecking=no -J ubuntu@$BASTION_HOST ubuntu@$HAPROXY_HOST "kubectl apply -f https://raw.githubusercontent.com/VictorA07/Kubernetes-dash/main/kubernetes-dashboard.yml"'
+                    sh 'ssh -o StrictHostKeyChecking=no -J ubuntu@$BASTION_HOST ubuntu@$HAPROXY_HOST "kubectl $(rule) -f https://raw.githubusercontent.com/VictorA07/Kubernetes-dash/main/kubernetes-dashboard.yml"'
                 }
             }
         }
@@ -22,7 +23,7 @@ pipeline{
             }
             steps {
                 sshagent(['jumpbox-key']) {
-                    sh 'ssh -o StrictHostKeyChecking=no -J ubuntu@$BASTION_HOST ubuntu@$HAPROXY_HOST "kubectl apply -f https://raw.githubusercontent.com/VictorA07/Kubernetes-dash/main/admin-user.yml"'
+                    sh 'ssh -o StrictHostKeyChecking=no -J ubuntu@$BASTION_HOST ubuntu@$HAPROXY_HOST "kubectl $(rule) -f https://raw.githubusercontent.com/VictorA07/Kubernetes-dash/main/admin-user.yml"'
                 }
             }
         }
@@ -32,7 +33,7 @@ pipeline{
             }
             steps {
                 sshagent(['jumpbox-key']) {
-                    sh 'ssh -o StrictHostKeyChecking=no -J ubuntu@$BASTION_HOST ubuntu@$HAPROXY_HOST "kubectl apply -f https://raw.githubusercontent.com/VictorA07/Kubernetes-dash/main/clusterbinding.yml"'
+                    sh 'ssh -o StrictHostKeyChecking=no -J ubuntu@$BASTION_HOST ubuntu@$HAPROXY_HOST "kubectl $(rule) -f https://raw.githubusercontent.com/VictorA07/Kubernetes-dash/main/clusterbinding.yml"'
                 }
             }
         }
